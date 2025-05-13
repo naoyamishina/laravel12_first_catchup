@@ -13,6 +13,10 @@
                     </span>
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                <div class="relative z-20 my-auto flex flex-col items-center justify-center text-center gap-4">
+                    <p class="text-3xl font-bold">ユーザー登録のご案内</p>
+                    <p class="text-lg">こちらから新規ユーザー登録ができます。<br>フォームより必要事項をご入力ください。</p>
+                </div>
 
                 @php
                     [$message, $author] = str(Illuminate\Foundation\Inspiring::quotes()->random())->explode('-');

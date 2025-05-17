@@ -13,15 +13,17 @@
                           {{ $post->title }}
                       </div>
                       <div class="flex justify-end my-2">
-                          <a href="{{ route('post.edit', $post) }}">
-                              <flux:button class="bg-teal-700 float-right">編集</flux:button>
-                          </a>
-                          <form method="post" action="{{ route('post.destroy', $post) }}">
-                              @csrf
-                              @method('delete')
-                              <flux:button variant="danger" class="bg-red-700 float-right ml-4" type="submit"
-                                  onClick="return confirm('本当に削除しますか？');">削除</flux:button>
-                          </form>
+                        <a href="{{ route('post.edit', $post) }}">
+                            <flux:button class="bg-teal-700 float-right">編集</flux:button>
+                        </a>
+                        @canany('delete', $post)
+                            <form method="post" action="{{ route('post.destroy', $post) }}">
+                                @csrf
+                                @method('delete')
+                                <flux:button variant="danger" class="bg-red-700 float-right ml-4" type="submit"
+                                    onClick="return confirm('本当に削除しますか？');">削除</flux:button>
+                            </form>
+                        @endcan
                       </div>
                   </div>
                   <hr class="w-full">

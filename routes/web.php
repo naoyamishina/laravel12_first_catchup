@@ -20,6 +20,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
     Route::resource('post', PostController::class);
+    // 削除
+    Route::resource('post', PostController::class)
+    ->only(['edit', 'update'])->middleware(['can:update,post']);
 });
 
 require __DIR__.'/auth.php';

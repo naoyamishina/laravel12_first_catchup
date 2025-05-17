@@ -12,7 +12,7 @@ Route::get('/', function () {
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [PostController::class, 'index'])->name('dashboard');
     Route::redirect('settings', 'settings/profile');
 

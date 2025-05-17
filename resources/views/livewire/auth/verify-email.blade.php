@@ -36,7 +36,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
 <div class="mt-4 flex flex-col gap-6">
     <flux:text class="text-center">
-        {{ __('Please verify your email address by clicking on the link we just emailed to you.') }}
+        ご登録ありがとうございます♪　
+        お手数ですが、メールアドレスの確認をさせてください。下記ボタンをクリックしてくださいね。
     </flux:text>
 
     @if (session('status') == 'verification-link-sent')

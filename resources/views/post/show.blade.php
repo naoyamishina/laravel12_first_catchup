@@ -42,8 +42,8 @@
                   @endif
 
                   <div class="text-sm font-semibold flex flex-row-reverse">
-                      <p> {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }}</p>
-                  </div>
+                    <p> {{ $post->user->name?? '退会ユーザー' }} • {{ $post->created_at->diffForHumans() }}</p>
+                </div>
                   @livewire('comment-section', ['post' => $post])
               </div>
           </div>

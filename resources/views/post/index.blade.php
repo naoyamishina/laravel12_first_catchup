@@ -27,8 +27,8 @@
                         <p class="mt-4 text-gray-600 py-4">
                             {{ $post->body }}
                         </p>
-                        <div class="text-sm font-semibold flex flex-row-reverse">
-                            <p> {{ $post->user->name }} • {{ $post->created_at->format('Y-m-d') }}</p>
+                        <div class="text-sm font-semibold flex justify-end">
+                            <p> {{ $post->user->name??'退会ユーザー' }} • {{ $post->created_at->diffForHumans() }}</p>
                         </div>
                       </div>
                   </div>

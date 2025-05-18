@@ -26,7 +26,7 @@
                 <img src="{{ asset('storage/avatar/' . ($comment->user->avatar ?? 'user_default.jpg')) }}" class="w-full h-full rounded-full">
             </span>
             <p class="pt-4 text-right">
-                {{ $comment->user->name }} • {{ $comment->created_at->diffForHumans() }}
+                {{ $comment->user->name??'退会ユーザー' }} • {{ $comment->created_at->diffForHumans() }}
             </p>
         </div>
         {{-- 追加・修正ここまで --}}

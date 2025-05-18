@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\PostController;
+use App\Livewire\UserList;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // 削除
     Route::resource('post', PostController::class)
     ->only(['edit', 'update'])->middleware(['can:update,post']);
+
+    Route::middleware(['can:admin'])->group(function () {
+        Route::get('users', UserList::class)->name('users.list');
+    });
 });
 
 require __DIR__.'/auth.php';

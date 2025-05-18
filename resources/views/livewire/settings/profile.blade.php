@@ -5,10 +5,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component {
+    use WithFileUploads;
+
     public string $name = '';
     public string $email = '';
+    public $avatar;
 
     /**
      * Mount the component.
@@ -37,7 +41,23 @@ new class extends Component {
                 'max:255',
                 Rule::unique(User::class)->ignore($user->id)
             ],
+            'avatar' => ['nullable', 'image', 'max:1024'],
         ]);
+
+        if ($this->avatar) {
+            // 古いアバターを削除
+            if ($user->avatar !== 'user_default.jpg') {
+                Storage::disk('public')->delete('avatar/'.$user->avatar);
+            }
+ 
+            $timestamp = now()->format('YmdHis');
+            $originalName = $this->avatar->getClientOriginalName();
+            $filename = $timestamp . '_' . $originalName;
+            $this->avatar->storeAs('avatar', $filename, 'public');
+            $validated['avatar'] = $filename;
+        } else {
+            unset($validated['avatar']);
+        }
 
         $user->fill($validated);
 
@@ -96,6 +116,37 @@ new class extends Component {
                         @endif
                     </div>
                 @endif
+            </div>
+
+            <div>
+                <label for="avatar" class="block text-sm font-medium text-gray-700">アバター</label>
+                <div class="my-2">
+                    {{-- 新しく選択した画像がある場合はそのプレビューを表示 --}}
+                    @if ($avatar)
+                        <p class="text-sm text-gray-500 mb-1">プレビュー：</p>
+                        <img src="{{ $avatar->temporaryUrl() }}" 
+                            alt="Avatar Preview" 
+                            class="w-50 rounded-full">
+                    {{-- 選択されていない場合は現在のアバターを表示 --}}
+                    @elseif (auth()->user()->avatar)
+                        <p class="text-sm text-gray-500 mb-1">現在のアバター：</p>
+                        <img src="{{ asset('storage/avatar/' . (auth()->user()->avatar ?? 'user_default.jpg')) }}"
+                            alt="Current Avatar" 
+                            class="w-50 rounded-full">
+                    @endif
+                </div>
+
+                <flux:input id="avatar" type="file" wire:model="avatar" class="mt-1 block w-full" />
+
+                {{-- アップロード中の表示を追加 --}}
+                <div wire:loading wire:target="avatar" class="text-sm text-gray-500 mt-1">
+                    アップロード中...
+                </div>
+
+                @error('avatar')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+
             </div>
 
             <div class="flex items-center gap-4">

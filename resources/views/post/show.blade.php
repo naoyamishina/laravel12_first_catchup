@@ -9,9 +9,15 @@
               <x-message :message="session('message')" type="success" />
               <div class="bg-white w-full  rounded-2xl px-10 py-8 shadow-lg hover:shadow-2xl transition duration-500">
                   <div class="flex justify-between">
-                      <div class="text-lg text-gray-700 font-semibold">
-                          {{ $post->title }}
-                      </div>
+                    <div class="flex">
+                        <div class="rounded-full w-12 h-12">
+                            {{-- アバター表示 --}}
+                            <img src="{{ asset('storage/avatar/' . ($post->user->avatar ?? 'user_default.jpg')) }}">
+                        </div>
+                        <p class="text-lg text-gray-700 font-semibold">
+                            {{ $post->title }}
+                        </p>
+                    </div>
                       <div class="flex justify-end my-2">
                         <a href="{{ route('post.edit', $post) }}">
                             <flux:button class="bg-teal-700 float-right">編集</flux:button>
